@@ -1,8 +1,8 @@
 ﻿{
- "name": "תוסף לקביעת תאריך ושעת פוסטים בישרא-בלוג",
- "version": "0.0.0.2",
+ "name": "עריכה רגילה בישרא-בלוג",
+ "version": "0.0.0.4",
  "manifest_version": 2,
- "description": "מוסיף שדה המאפשר קביעת תאריך ושעה לקטעים בישרא-בלוג, כחלק מהעורך הרגיל.",
+ "description": "החזרת אפשרות העריכה הרגילה לישרא-בלוג, כולל אפשרות להרחבות.",
  "icons":
   {
    "16": "TinyLogo.png",
@@ -13,7 +13,7 @@
  "content_scripts":
   [
    {
-    "js": ["plugin-injector.js"],
+    "js": ["regular-edit-injector.js"],
     "matches":
      [
       "http://israblog.nana10.co.il/edit/blogrichedit_m.asp?edit=1",
@@ -95,6 +95,6 @@
   ],
  "web_accessible_resources":
   [
-   "date-picker-plugin.js"
+   "regular-edit.js"
   ]
 }
