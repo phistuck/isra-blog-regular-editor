@@ -1,17 +1,27 @@
 ﻿{
- "name": "IsraBlog Regular Editor",
- "version": "0.0.0.1",
- "description": "Adds a regular editing mode to the (old) rich editor.",
+ "name": "עריכה רגילה בישרא-בלוג",
+ "version": "0.0.0.2",
+ "description": "החזרת אפשרות העריכה הרגילה לישרא-בלוג, כולל אפשרות להרחבות.",
+ "icons":
+ {
+  "16": "TinyLogo.png",
+  "32": "SmallLogo.png",
+  "48": "SmallerLogo.png",
+  "128": "Logo.png"
+ },
  "content_scripts":
  [
   {
    "js": ["regular-edit-injector.js"],
    "matches": ["http://israblog.nana10.co.il/edit/blogrichedit_m.asp?edit=1",
-                     "http://israblog.nana10.co.il/edit/blogrichedit_m.asp",
-                     "http://israblog.nana10.co.il/edit/blogrichedit_m.asp*"],
-   "run_at": "document_idle",
+               "http://israblog.nana10.co.il/edit/blogedit2_m.asp?edit=1",
+               "http://israblog.nana10.co.il/edit/blogedit2_m.asp",
+               "http://israblog.nana10.co.il/edit/blogedit2_m.asp*",
+               "http://israblog.nana10.co.il/edit/blogrichedit_m.asp",
+               "http://israblog.nana10.co.il/edit/blogrichedit_m.asp*"],
+   "run_at": "document_start",
    "all_frames": true
   }
  ],
- "permissions": ["idle", "tabs", "http://israblog.nana10.co.il/"]
+ "permissions": ["http://israblog.nana10.co.il/"]
 }
