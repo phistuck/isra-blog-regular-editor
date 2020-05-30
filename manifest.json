@@ -1,0 +1,17 @@
+﻿{
+ "name": "IsraBlog Regular Editor",
+ "version": "0.0.0.1",
+ "description": "Adds a regular editing mode to the (old) rich editor.",
+ "content_scripts":
+ [
+  {
+   "js": ["regular-edit-injector.js"],
+   "matches": ["http://israblog.nana10.co.il/edit/blogrichedit_m.asp?edit=1",
+                     "http://israblog.nana10.co.il/edit/blogrichedit_m.asp",
+                     "http://israblog.nana10.co.il/edit/blogrichedit_m.asp*"],
+   "run_at": "document_idle",
+   "all_frames": true
+  }
+ ],
+ "permissions": ["idle", "tabs", "http://israblog.nana10.co.il/"]
+}
