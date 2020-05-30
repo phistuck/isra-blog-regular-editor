@@ -1,8 +1,6 @@
-{
-"update_url": "https://clients2.google.com/service/update2/crx",
-
+﻿{
  "name": "עריכה רגילה בישרא-בלוג",
- "version": "0.0.0.3",
+ "version": "0.0.0.2",
  "manifest_version": 2,
  "description": "החזרת אפשרות העריכה הרגילה לישרא-בלוג, כולל אפשרות להרחבות.",
  "icons":

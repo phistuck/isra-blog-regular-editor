@@ -6,6 +6,46 @@ if (!window.RegularEditor)
 }
 RegularEditor.Settings = {};
 RegularEditor.Elements = {};
+RegularEditor.RunForEveryPlugin =
+ function (callback)
+ {
+  try
+  {
+   /*jslint plusplus: true*/
+   for (i = 0, length = RegularEditor.Plugins.length; i < length; i++)
+   {
+   /*jslint plusplus: false*/
+    try
+    {
+      callback(RegularEditor.Plugins[i]);
+    }
+    catch (e)
+    {
+     console.log(
+      "There was a problem with the \"Initialize\" " +
+      "function of one of the plugins.\n", e);
+    }
+   }
+  }
+  catch (e1)
+  {
+   console.log("There was a problem during the plugin initialization.", e1);
+  }
+ };
+RegularEditor.CanSubmit =
+ function ()
+ {
+  var canSubmit = true;
+  RegularEditor.RunForEveryPlugin(
+   function (plugin)
+   {
+    if (plugin.CanSubmit && !plugin.CanSubmit())
+    {
+     canSubmit = false;
+    }
+   });
+   return canSubmit;
+ };
 RegularEditor.ToggleEditModes =
 function ()
  {
@@ -53,6 +93,8 @@ function ()
      eval(
       "window.doSubmit = " +
       window.doSubmit.toString()
+       .replace(
+        /{/, "{ if (!RegularEditor.CanSubmit()) { return; }")
        .replace(
         /document\.frmBlog\.blogtextnew\.value = tinyMCE\.get\('blogtextnew'\)\.getContent\(\)/g,
         "RegularEditor.PrepareTextForSubmitting();")
@@ -236,7 +278,7 @@ RegularEditor.InitializeEditingModeChanger =
   var i, length;
   if (typeof localStorage["UseOriginalText"] === "undefined")
   {
-   localStorage["UseOriginalText"] = "0";
+   localStorage["UseOriginalText"] = "1";
   }
   if (window.tinyMCE)
   {
@@ -273,15 +315,15 @@ RegularEditor.InitializeEditingModeChanger =
     "העדפה בעריכת קטע קיים -" +
     "<br/>" +
     "<label><input type=\"radio\" " +
+                  "onclick=\"localStorage['UseOriginalText'] = 1\" " +
+                  "name=\"_regular-editor-original-text\" " +
+                  "value=\"1\">השתמש בקטע השמור המקורי</label>" +
+    "<br/>" +
+    "<label><input type=\"radio\" " +
                   "onclick=\"localStorage['UseOriginalText'] = 0\" " +
                   "name=\"_regular-editor-original-text\" " +
                   "value=\"0\">" +
      "השתמש בקטע הקיים בעמוד (עם כל השינויים)</label>" +
-    "<br/>" +
-    "<label><input type=\"radio\" " +
-                  "onclick=\"localStorage['UseOriginalText'] = 1\" " +
-                  "name=\"_regular-editor-original-text\" " +
-                  "value=\"1\">השתמש בקטע השמור המקורי</label>" +
     "<br/>" +
     "<br/>" +
    "</div>");
@@ -289,28 +331,11 @@ RegularEditor.InitializeEditingModeChanger =
    "input[name=_regular-editor-original-text]" +
         "[value=" + localStorage["UseOriginalText"] + "]")
    .attr("checked", "checked");
-  try
-  {
-   /*jslint plusplus: true*/
-   for (i = 0, length = RegularEditor.Plugins.length; i < length; i++)
+  RegularEditor.RunForEveryPlugin(
+   function (plugin)
    {
-   /*jslint plusplus: false*/
-    try
-    {
-      RegularEditor.Plugins[i].Initialize();
-    }
-    catch (e)
-    {
-     console.log(
-      "There was a problem with the \"Initialize\" " +
-      "function of one of the plugins.\n", e);
-    }
-   }
-  }
-  catch (e1)
-  {
-   console.log("There was a problem during the plugin initialization.", e1);
-  }
+    plugin.Initialize();
+   });
   RegularEditor.ResizeWindow();
  };
 
